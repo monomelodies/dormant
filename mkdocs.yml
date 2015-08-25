@@ -1,0 +1,6 @@
+site_name: Dormant documentation
+
+pages:
+- Home:
+    - 'Quick start': 'index.md'
+
