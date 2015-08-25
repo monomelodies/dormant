@@ -1,0 +1,26 @@
+{
+    "name": "monomelodies/dormant",
+    "description": "Dabble-based Ornament adapter",
+    "license": "MIT",
+    "keywords": ["php","orm"],
+    "authors": [
+        {
+            "name": "Marijn Ophorst",
+            "email": "marijn@monomelodies.nl"
+        }
+    ],
+    "require": {
+        "php": ">=5.5",
+        "monomelodies/dabble": "^1.2.0",
+        "monomelodies/ornament": "@dev"
+    },
+    "require-dev": {
+        "phpunit/phpunit": ">=4.0",
+        "phpunit/dbunit": ">=1.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dormant\\": "src/"
+        }
+    }
+}
