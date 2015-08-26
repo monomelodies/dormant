@@ -18,7 +18,10 @@ trait Dabble
         array $fields = null
     ) {
         if (!isset($id)) {
-            $id = $this->guessTableName();
+            $annotations = $this->annotations()['class'];
+            $id = isset($annotations['Identifier']) ?
+                $annotations['Identifier'] :
+                $this->guessTableName();
         }
         $annotations = $this->annotations()['properties'];
         if (!isset($fields)) {
