@@ -20,7 +20,7 @@ final class Adapter implements Base
     private $adapter;
     private $table;
     private $fields;
-    private $primaryKey;
+    private $primaryKey = [];
     private $statements = [];
 
     public function __construct(Dab $adapter, $table, array $fields)
