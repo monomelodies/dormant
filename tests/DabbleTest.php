@@ -93,7 +93,7 @@ class DabbleTest extends PHPUnit_Extensions_Database_TestCase
     }
 
     /**
-     * @expectedException Ornament\Exception\UnknownVirtualProperty
+     * @expectedException PHPUnit_Framework_Error_Notice
      */
     public function testVirtuals()
     {
