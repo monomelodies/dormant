@@ -31,13 +31,18 @@ trait Dabble
                 }
             }
         }
-        $pk = false;
-        if (in_array('id', $fields)) {
-            $pk = true;
+        $pk = [];
+        foreach ($annotations as $prop => $anno) {
+            if (isset($anno['PrimaryKey'])) {
+                $pk[] = $prop;
+            }
+        }
+        if (!$pk && in_array('id', $fields)) {
+            $pk[] = 'id';
         }
         $adapter = new \Dormant\Adapter($adapter, $id, $fields);
         if ($pk) {
-            $adapter->setPrimaryKey('id');
+            call_user_func_array([$adapter, 'setPrimaryKey'], $pk);
         }
         return $this->addAdapter($adapter, $id, $fields);
     }
