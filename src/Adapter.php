@@ -61,7 +61,7 @@ final class Adapter implements Base
             if (isset($object->$key)) {
                 $where[$key] = $object->$key;
             } else {
-                throw new Exception\PrimaryKey($object);
+                throw new Exception\PrimaryKey($object, $key);
             }
         }
         $query = new Select(
