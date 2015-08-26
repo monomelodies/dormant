@@ -12,7 +12,7 @@ trait Dabble
     use Storage;
     use Table;
 
-    public function addDabbleAdapter(
+    protected function addDabbleAdapter(
         Adapter $adapter,
         $id = null,
         array $fields = null
