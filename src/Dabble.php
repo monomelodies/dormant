@@ -2,7 +2,6 @@
 
 namespace Dormant;
 
-use Ornament\Repository;
 use Ornament\Storage;
 use Ornament\Table;
 use Dabble\Adapter;
@@ -26,7 +25,7 @@ trait Dabble
         $annotations = $this->annotations()['properties'];
         if (!isset($fields)) {
             $fields = [];
-            foreach (Repository::getProperties($this) as $prop) {
+            foreach ($this->properties($this) as $prop) {
                 if (property_exists($this, $prop)
                     && !isset($annotations[$prop]['Virtual'])
                 ) {
