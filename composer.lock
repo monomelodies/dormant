@@ -57,12 +57,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/monomelodies/ornament.git",
-                "reference": "cc62978d21b5e78f181645dfb2c86a4b331655ba"
+                "reference": "2ed48220d0164615abbaae02b594fdcb09caed95"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/monomelodies/ornament/zipball/cc62978d21b5e78f181645dfb2c86a4b331655ba",
-                "reference": "cc62978d21b5e78f181645dfb2c86a4b331655ba",
+                "url": "https://api.github.com/repos/monomelodies/ornament/zipball/2ed48220d0164615abbaae02b594fdcb09caed95",
+                "reference": "2ed48220d0164615abbaae02b594fdcb09caed95",
                 "shasum": ""
             },
             "require": {
@@ -70,6 +70,7 @@
                 "zeptech/annotations": "^1.1"
             },
             "require-dev": {
+                "monomelodies/docile": "@dev",
                 "phpunit/dbunit": ">=1.2",
                 "phpunit/phpunit": ">=4.0"
             },
@@ -94,7 +95,7 @@
                 "orm",
                 "php"
             ],
-            "time": "2015-08-26 14:42:29"
+            "time": "2015-08-27 15:17:42"
         },
         {
             "name": "zeptech/annotations",
