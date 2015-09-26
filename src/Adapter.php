@@ -118,7 +118,7 @@ final class Adapter implements Base
     {
         $data = [];
         foreach ($this->fields as $field) {
-            if (isset($object->$field)) {
+            if (property_exists($object, $field)) {
                 $data[$field] = $object->$field;
             }
         }
