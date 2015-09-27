@@ -5,6 +5,7 @@ use Dabble\Adapter\Sqlite;
 class MyTableModel
 {
     use Dormant\Dabble;
+    use Ornament\Query;
 
     public $id;
     public $name;
@@ -139,8 +140,7 @@ class DabbleTest extends PHPUnit_Extensions_Database_TestCase
 
     public function testQuery()
     {
-        $model = new MyTableModel;
-        $list = $model->query([]);
+        $list = MyTableModel::query([]);
         $this->assertEquals(3, count($list));
         $this->assertEquals('MyTableModel', get_class($list[0]));
     }
