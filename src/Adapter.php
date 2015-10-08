@@ -36,12 +36,8 @@ final class Adapter implements Base
         return $this;
     }
 
-    public function query(
-        $object,
-        array $parameters,
-        array $options = [],
-        array $ctor = []
-    ) {
+    public function query($object, array $parameters, array $options = [])
+    {
         $query = new Select(
             $this->adapter,
             $this->table,
@@ -51,7 +47,7 @@ final class Adapter implements Base
         );   
         $stmt = $this->getStatement($query->__toString());
         $stmt->execute($query->getBindings());
-        return $stmt->fetchAll(PDO::FETCH_CLASS, get_class($object), $ctor);
+        return $stmt->fetchAll(PDO::FETCH_CLASS, get_class($object));
     }
 
     public function load(Model $object)
