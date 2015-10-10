@@ -3,13 +3,13 @@
 namespace Dormant;
 
 use Ornament\Storage;
-use Ornament\Table;
+use Ornament\Identify;
 use Dabble\Adapter;
 
 trait Dabble
 {
     use Storage;
-    use Table;
+    use Identify;
 
     protected function addDabbleAdapter(
         Adapter $adapter,
@@ -20,7 +20,7 @@ trait Dabble
             $annotations = $this->annotations()['class'];
             $id = isset($annotations['Identifier']) ?
                 $annotations['Identifier'] :
-                $this->guessTableName();
+                $this->guessIdentifier();
         }
         $annotations = $this->annotations()['properties'];
         if (!isset($fields)) {
