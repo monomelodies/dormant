@@ -25,9 +25,10 @@ trait Dabble
         $annotations = $this->annotations()['properties'];
         if (!isset($fields)) {
             $fields = [];
-            foreach ($this->properties($this) as $prop) {
-                if (property_exists($this, $prop)
-                    && !isset($annotations[$prop]['Virtual'])
+            foreach ($annotations as $prop => $anns) {
+                if ($prop{0} != '_'
+                    && !isset($anns['Virtual'])
+                    && !isset($anns['Private'])
                     && !is_array($this->$prop)
                 ) {
                     $fields[] = $prop;
