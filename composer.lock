@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9df26fae25a7e4487e83eb31fd4c9579",
-    "content-hash": "0082eef2c489a02b823a9573f9e4df23",
+    "hash": "13a337bbdbb43fa90b5974235fb09ba3",
+    "content-hash": "d4f5977b94cee727adc6c1aab66742db",
     "packages": [
         {
             "name": "monomelodies/dabble",
@@ -54,16 +54,16 @@
         },
         {
             "name": "monomelodies/ornament",
-            "version": "0.3.0",
+            "version": "0.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/monomelodies/ornament.git",
-                "reference": "1ae46cca70a321a88aeeb94b27ebd991f975d851"
+                "reference": "11f6f0f66b10542b3b4544c35d65d6d1eebebe39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/monomelodies/ornament/zipball/1ae46cca70a321a88aeeb94b27ebd991f975d851",
-                "reference": "1ae46cca70a321a88aeeb94b27ebd991f975d851",
+                "url": "https://api.github.com/repos/monomelodies/ornament/zipball/11f6f0f66b10542b3b4544c35d65d6d1eebebe39",
+                "reference": "11f6f0f66b10542b3b4544c35d65d6d1eebebe39",
                 "shasum": ""
             },
             "require": {
@@ -71,7 +71,6 @@
                 "zeptech/annotations": "^1.1"
             },
             "require-dev": {
-                "monomelodies/docile": "@dev",
                 "phpunit/dbunit": ">=1.2",
                 "phpunit/phpunit": ">=4.0"
             },
@@ -101,7 +100,7 @@
                 "orm",
                 "php"
             ],
-            "time": "2015-10-10 09:30:36"
+            "time": "2015-10-11 08:26:06"
         },
         {
             "name": "zeptech/annotations",
