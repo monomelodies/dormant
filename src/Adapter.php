@@ -2,9 +2,10 @@
 
 namespace Dormant;
 
-use Ornament\Adapter as Base;
+use Ornament;
+use Ornament\Adapter\Defaults;
 use Ornament\Exception;
-use Ornament\Model;
+use Ornament\Container;
 use Dabble\Adapter as Dab;
 use Dabble\Query\SelectException;
 use Dabble\Query\Select;
@@ -15,32 +16,26 @@ use Dabble\Query\Where;
 use Dabble\Query\Options;
 use PDO;
 
-final class Adapter implements Base
+final class Adapter implements Ornament\Adapter
 {
+    use Defaults;
+
     private $adapter;
     private $table;
     private $fields;
     private $primaryKey = [];
     private $statements = [];
 
-    public function __construct(Dab $adapter, $table, array $fields)
+    public function __construct(Dab $adapter)
     {
         $this->adapter = $adapter;
-        $this->table = $table;
-        $this->fields = $fields;
-    }
-
-    public function setPrimaryKey($field)
-    {
-        $this->primaryKey = func_get_args();
-        return $this;
     }
 
     public function query($object, array $parameters, array $options = [])
     {
         $query = new Select(
             $this->adapter,
-            $this->table,
+            $this->identifier,
             $this->fields,
             new Where($parameters),
             new Options($options)
@@ -50,7 +45,7 @@ final class Adapter implements Base
         return $stmt->fetchAll(PDO::FETCH_CLASS, get_class($object));
     }
 
-    public function load(Model $object)
+    public function load(Container $object)
     {
         $where = [];
         foreach ($this->primaryKey as $key) {
@@ -62,7 +57,7 @@ final class Adapter implements Base
         }
         $query = new Select(
             $this->adapter,
-            $this->table,
+            $this->identifier,
             $this->fields,
             new Where($where),
             new Options
@@ -83,7 +78,7 @@ final class Adapter implements Base
         return $this->statements[$sql];
     }
 
-    public function create(Model $object)
+    public function create(Container $object)
     {
         $data = [];
         foreach ($this->fields as $field) {
@@ -93,7 +88,7 @@ final class Adapter implements Base
         }
         $query = new Insert(
             $this->adapter,
-            $this->table,
+            $this->identifier,
             $data
         );
         $stmt = $this->getStatement($query->__toString());
@@ -101,7 +96,7 @@ final class Adapter implements Base
         if (count($this->primaryKey) == 1) {
             $pk = $this->primaryKey[0];
             try {
-                $object->$pk = $this->adapter->lastInsertId($this->table);
+                $object->$pk = $this->adapter->lastInsertId($this->identifier);
                 $this->load($object);
             } catch (PDOException $e) {
                 // Means this is not supported by this engine.
@@ -110,7 +105,7 @@ final class Adapter implements Base
         return $retval;
     }
 
-    public function update(Model $object)
+    public function update(Container $object)
     {
         $data = [];
         foreach ($this->fields as $field) {
@@ -124,7 +119,7 @@ final class Adapter implements Base
         }
         $query = new Update(
             $this->adapter,
-            $this->table,
+            $this->identifier,
             $data,
             new Where($where),
             new Options
@@ -135,7 +130,7 @@ final class Adapter implements Base
         return $retval;
     }
 
-    public function delete(Model $object)
+    public function delete(Container $object)
     {
         $where = [];
         foreach ($this->primaryKey as $key) {
@@ -143,7 +138,7 @@ final class Adapter implements Base
         }
         $query = new Delete(
             $this->adapter,
-            $this->table,
+            $this->identifier,
             $where
         );
         $stmt = $this->getStatement($query->__toString());
