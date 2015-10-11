@@ -4,7 +4,7 @@ use Dabble\Adapter\Sqlite;
 
 class MyTableModel
 {
-    use Dormant\Dabble;
+    use Ornament\Model;
     use Ornament\Query;
 
     public $id;
@@ -13,53 +13,7 @@ class MyTableModel
 
     public function __construct()
     {
-        $this->addDabbleAdapter($GLOBALS['pdo']);
-    }
-}
-
-class LinkedTableModel
-{
-    use Dormant\Dabble;
-    use Ornament\Autoload;
-
-    public $id;
-    /**
-     * @Model MyTableModel
-     */
-    public $mytable;
-    public $points;
-
-    public function __construct()
-    {
-        $this->addDabbleAdapter($GLOBALS['pdo']);
-    }
-
-    public function getPercentage()
-    {
-        return round(($this->points / 5) * 100);
-    }
-
-    public function __index($index)
-    {
-    }
-}
-
-class BitflagModel
-{
-    use Dormant\Dabble;
-
-    const STATUS_NICE = 1;
-    const STATUS_CATS = 2;
-    const STATUS_CODE = 4;
-
-    /**
-     * @Bitflag nice = 1, cats = 2, code = 4
-     */
-    public $status;
-
-    public function __construct()
-    {
-        $this->addDabbleAdapter($GLOBALS['pdo']);
+        $this->addAdapter(new Dormant\Adapter($GLOBALS['pdo']));
     }
 }
 
@@ -90,51 +44,6 @@ class DabbleTest extends PHPUnit_Extensions_Database_TestCase
         $model = new MyTableModel(self::$pdo);
         $model->id = 1;
         $model->load();
-    }
-
-    /**
-     * @expectedException PHPUnit_Framework_Error_Notice
-     */
-    public function testVirtuals()
-    {
-        $model = new MyTableModel;
-        $model->name = 'Marijn';
-        $model->comment = 'Hi Ornament';
-        $model->save();
-        $linked = new LinkedTableModel(self::$pdo);
-        $linked->mytable = $model->id;
-        $linked->points = 4;
-        $linked->save();
-        $this->assertEquals(80, $linked->percentage);
-        $linked->percentage = 70;
-    }
-
-    public function testBitflags()
-    {
-        $model = new BitflagModel;
-        $model->status->code = true;
-        $model->status->cats = true;
-        $this->assertEquals("6", "{$model->status}");
-        $model->status->code = false;
-        $model->status->nice = true;
-        $this->assertEquals(3, "{$model->status}");
-    }
-
-    public function testAutoload()
-    {
-        $model = new MyTableModel;
-        $model->name = 'Marijn';
-        $model->comment = 'Hi Ornament';
-        $model->save();
-        $linked = new LinkedTableModel(self::$pdo);
-        $linked->mytable = $model->id;
-        $linked->points = 4;
-        $linked->save();
-        unset($model, $linked);
-        $linked = new LinkedTableModel;
-        $linked->id = 1;
-        $linked->load();
-        $this->assertEquals('MyTableModel', get_class($linked->mytable));
     }
 
     public function testQuery()
