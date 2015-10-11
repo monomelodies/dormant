@@ -47,20 +47,19 @@ class LinkedTableModel
 class BitflagModel
 {
     use Dormant\Dabble;
-    use Ornament\Bitflag;
 
     const STATUS_NICE = 1;
     const STATUS_CATS = 2;
     const STATUS_CODE = 4;
 
+    /**
+     * @Bitflag nice = 1, cats = 2, code = 4
+     */
     public $status;
 
     public function __construct()
     {
         $this->addDabbleAdapter($GLOBALS['pdo']);
-        $this->addBitflag('nice', self::STATUS_NICE, 'status');
-        $this->addBitflag('cats', self::STATUS_CATS, 'status');
-        $this->addBitflag('code', self::STATUS_CODE, 'status');
     }
 }
 
@@ -113,12 +112,12 @@ class DabbleTest extends PHPUnit_Extensions_Database_TestCase
     public function testBitflags()
     {
         $model = new BitflagModel;
-        $model->code = true;
-        $model->cats = true;
-        $this->assertEquals(6, $model->status);
-        $model->code = false;
-        $model->nice = true;
-        $this->assertEquals(3, $model->status);
+        $model->status->code = true;
+        $model->status->cats = true;
+        $this->assertEquals("6", "{$model->status}");
+        $model->status->code = false;
+        $model->status->nice = true;
+        $this->assertEquals(3, "{$model->status}");
     }
 
     public function testAutoload()
