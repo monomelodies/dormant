@@ -1,149 +1,68 @@
 <?php
 
+/**
+ * An Ornament adapter compatible with the Dabble database abstraction layer.
+ *
+ * To use, inject a new Adapter(Dabble\Adapter) with addAdapter instead of
+ * Ornament's default Adapter\Pdo.
+ *
+ * The main advantage of using the Dormant adapter is that your `query` calls
+ * now have full support for Dabble's where/options syntax.
+ */
 namespace Dormant;
 
-use Ornament;
+use Ornament\Adapter\Pdo as PdoAdapter;
 use Ornament\Adapter\Defaults;
-use Ornament\Exception;
 use Ornament\Container;
 use Dabble\Adapter as Dab;
-use Dabble\Query\SelectException;
 use Dabble\Query\Select;
-use Dabble\Query\Insert;
-use Dabble\Query\Update;
-use Dabble\Query\Delete;
 use Dabble\Query\Where;
 use Dabble\Query\Options;
 use PDO;
+use PDOException;
 
-final class Adapter implements Ornament\Adapter
+/**
+ * The adapter class. Note that it extends the Pdo Adapter from Ornament and
+ * simply augments it with its own `query` method that has full support for
+ * Dabble $where and $options parameters.
+ */
+class Adapter extends PdoAdapter
 {
     use Defaults;
 
-    private $adapter;
-    private $table;
-    private $fields;
-    private $primaryKey = [];
-    private $statements = [];
-
     public function __construct(Dab $adapter)
     {
-        $this->adapter = $adapter;
+        parent::__construct($adapter);
     }
 
     public function query($object, array $parameters, array $options = [])
     {
+        $identifier = $this->identifier;
+        $fields = $this->fields;
+        foreach ($fields as &$field) {
+            $field = "$identifier.$field";
+        }
+        $identifier .= $this->generateJoin($fields);
         $query = new Select(
             $this->adapter,
-            $this->identifier,
-            $this->fields,
+            $identifier,
+            $fields,
             new Where($parameters),
             new Options($options)
         );   
         $stmt = $this->getStatement($query->__toString());
         $stmt->execute($query->getBindings());
-        return $stmt->fetchAll(PDO::FETCH_CLASS, get_class($object));
-    }
-
-    public function load(Container $object)
-    {
-        $where = [];
-        foreach ($this->primaryKey as $key) {
-            if (isset($object->$key)) {
-                $where[$key] = $object->$key;
-            } else {
-                throw new Exception\PrimaryKey($object, $key);
+        try {
+            $found = [];
+            $stmt->setFetchMode(PDO::FETCH_INTO, clone $object);
+            while ($entry = $stmt->fetch()) {
+                $found[] = $entry;
+                $stmt->setFetchMode(PDO::FETCH_INTO, clone $object);
             }
+            return $found;
+        } catch (PDOException $e) {
+            return false;
         }
-        $query = new Select(
-            $this->adapter,
-            $this->identifier,
-            $this->fields,
-            new Where($where),
-            new Options
-        );   
-        $stmt = $this->getStatement($query->__toString());
-        $stmt->setFetchMode(PDO::FETCH_INTO, $object);
-        $stmt->execute($query->getBindings());
-        $stmt->fetch();
-        $object->markClean();
-        return $this;
-    }
-
-    private function getStatement($sql)
-    {
-        if (!isset($this->statements[$sql])) {
-            $this->statements[$sql] = $this->adapter->prepare($sql);
-        }
-        return $this->statements[$sql];
-    }
-
-    public function create(Container $object)
-    {
-        $data = [];
-        foreach ($this->fields as $field) {
-            if (isset($object->$field)) {
-                $data[$field] = $object->$field;
-            }
-        }
-        $query = new Insert(
-            $this->adapter,
-            $this->identifier,
-            $data
-        );
-        $stmt = $this->getStatement($query->__toString());
-        $retval = $stmt->execute($query->getBindings());
-        if (count($this->primaryKey) == 1) {
-            $pk = $this->primaryKey[0];
-            try {
-                $object->$pk = $this->adapter->lastInsertId($this->identifier);
-                $this->load($object);
-            } catch (PDOException $e) {
-                // Means this is not supported by this engine.
-            }
-        }
-        return $retval;
-    }
-
-    public function update(Container $object)
-    {
-        $data = [];
-        foreach ($this->fields as $field) {
-            if (property_exists($object, $field)) {
-                $data[$field] = $object->$field;
-            }
-        }
-        $where = [];
-        foreach ($this->primaryKey as $key) {
-            $where[$key] = $object->$key;
-        }
-        $query = new Update(
-            $this->adapter,
-            $this->identifier,
-            $data,
-            new Where($where),
-            new Options
-        );
-        $stmt = $this->getStatement($query->__toString());
-        $retval = $stmt->execute($query->getBindings());
-        $this->load($object);
-        return $retval;
-    }
-
-    public function delete(Container $object)
-    {
-        $where = [];
-        foreach ($this->primaryKey as $key) {
-            $where[$key] = $object->$key;
-        }
-        $query = new Delete(
-            $this->adapter,
-            $this->identifier,
-            $where
-        );
-        $stmt = $this->getStatement($query->__toString());
-        $retval = $stmt->execute($query->getBindings());
-        return $retval;
     }
 }
 
