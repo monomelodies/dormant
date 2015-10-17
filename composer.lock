@@ -54,16 +54,16 @@
         },
         {
             "name": "monomelodies/ornament",
-            "version": "0.6.0",
+            "version": "0.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/monomelodies/ornament.git",
-                "reference": "4aa4b0aa37254eaf1547400b00faf7c47fa8a994"
+                "reference": "ac8f8f77e78b1b952e53eb844685ead233eb7f4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/monomelodies/ornament/zipball/4aa4b0aa37254eaf1547400b00faf7c47fa8a994",
-                "reference": "4aa4b0aa37254eaf1547400b00faf7c47fa8a994",
+                "url": "https://api.github.com/repos/monomelodies/ornament/zipball/ac8f8f77e78b1b952e53eb844685ead233eb7f4c",
+                "reference": "ac8f8f77e78b1b952e53eb844685ead233eb7f4c",
                 "shasum": ""
             },
             "require": {
@@ -100,7 +100,7 @@
                 "orm",
                 "php"
             ],
-            "time": "2015-10-17 09:25:48"
+            "time": "2015-10-17 10:16:33"
         },
         {
             "name": "zeptech/annotations",
