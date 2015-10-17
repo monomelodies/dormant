@@ -29,12 +29,29 @@ use PDOException;
 class Adapter extends PdoAdapter
 {
     use Defaults;
-
+    
+    /**
+     * Constructor. Pass in the Dabble adapter instead of the PDO adapter.
+     *
+     * @param Dabble\Adapter $adapter
+     * @return void
+     */
     public function __construct(Dab $adapter)
     {
         parent::__construct($adapter);
     }
 
+    /**
+     * Query. The interface is identical to Ornament\Adapter::query, except that
+     * it wraps $parameters and $options in the corresponding Where and Options
+     * classes for extended functionality.
+     *
+     * @param object $object The model to query into.
+     * @param array $parameters Array of `WHERE` parameters.
+     * @param array $options Hash of `OPTIONS` options.
+     * @return array|false An array of initialized models of the same type as
+     *  $object, or false on failure.
+     */
     public function query($object, array $parameters, array $options = [])
     {
         $identifier = $this->identifier;
