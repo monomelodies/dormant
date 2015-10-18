@@ -49,10 +49,11 @@ class Adapter extends PdoAdapter
      * @param object $object The model to query into.
      * @param array $parameters Array of `WHERE` parameters.
      * @param array $options Hash of `OPTIONS` options.
+     * @param array $ctor Optional constructor arguments.
      * @return array|false An array of initialized models of the same type as
      *  $object, or false on failure.
      */
-    public function query($object, array $parameters, array $options = [])
+    public function query($object, array $parameters, array $options = [], array $ctor = [])
     {
         $identifier = $this->identifier;
         $fields = $this->fields;
@@ -68,15 +69,10 @@ class Adapter extends PdoAdapter
             new Options($options)
         );   
         $stmt = $this->getStatement($query->__toString());
-        $stmt->execute($query->getBindings());
         try {
-            $found = [];
-            $stmt->setFetchMode(PDO::FETCH_INTO, clone $object);
-            while ($entry = $stmt->fetch()) {
-                $found[] = $entry;
-                $stmt->setFetchMode(PDO::FETCH_INTO, clone $object);
-            }
-            return $found;
+            $stmt->execute($query->getBindings());
+            $stmt->setFetchMode(PDO::FETCH_CLASS, get_class($object), $ctor);
+            return $stmt->fetchAll();
         } catch (PDOException $e) {
             return false;
         }

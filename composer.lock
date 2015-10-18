@@ -54,16 +54,16 @@
         },
         {
             "name": "monomelodies/ornament",
-            "version": "0.6.2",
+            "version": "0.6.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/monomelodies/ornament.git",
-                "reference": "ac8f8f77e78b1b952e53eb844685ead233eb7f4c"
+                "reference": "2a2d145fc84b31187886baacd72cce5f11acf222"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/monomelodies/ornament/zipball/ac8f8f77e78b1b952e53eb844685ead233eb7f4c",
-                "reference": "ac8f8f77e78b1b952e53eb844685ead233eb7f4c",
+                "url": "https://api.github.com/repos/monomelodies/ornament/zipball/2a2d145fc84b31187886baacd72cce5f11acf222",
+                "reference": "2a2d145fc84b31187886baacd72cce5f11acf222",
                 "shasum": ""
             },
             "require": {
@@ -100,7 +100,7 @@
                 "orm",
                 "php"
             ],
-            "time": "2015-10-17 10:16:33"
+            "time": "2015-10-18 08:37:02"
         },
         {
             "name": "zeptech/annotations",
@@ -720,16 +720,16 @@
         },
         {
             "name": "phpunit/phpunit-mock-objects",
-            "version": "3.0.2",
+            "version": "3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "3324b035ed1822df22b2c99f2ae22547085eb7a8"
+                "reference": "382c729a52b7ef682e94c73fd6868f5ee8116ba7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/3324b035ed1822df22b2c99f2ae22547085eb7a8",
-                "reference": "3324b035ed1822df22b2c99f2ae22547085eb7a8",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/382c729a52b7ef682e94c73fd6868f5ee8116ba7",
+                "reference": "382c729a52b7ef682e94c73fd6868f5ee8116ba7",
                 "shasum": ""
             },
             "require": {
@@ -772,7 +772,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2015-10-16 12:26:30"
+            "time": "2015-10-18 07:55:54"
         },
         {
             "name": "sebastian/comparator",
