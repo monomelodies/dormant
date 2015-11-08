@@ -67,7 +67,7 @@ class Adapter extends PdoAdapter
             $fields,
             new Where($parameters),
             new Options($options)
-        );   
+        );
         $stmt = $this->getStatement($query->__toString());
         try {
             $stmt->execute($query->getBindings());
