@@ -17,16 +17,18 @@ A simple [Ornament adapter](http://ornament.monomelodies.nl) using the
 ```php
 <?php
 
-use Dormant\Dabble;
+use Ornament\Model;
+use Dormant\Adapter;
 
 class MyModel
 {
-    use Dabble;
+    use Model;
 
     public function __construct()
     {
         // Assuming $adapter is your Dabble adapter...
-        $this->addDabbleAdapter($GLOBALS['adapter']);
+        $this->addAdapter(new Adapter($GLOBALS['adapter']));
     }
 }
+```
 
