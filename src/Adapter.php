@@ -14,7 +14,7 @@ namespace Dormant;
 use Ornament\Adapter\Pdo as PdoAdapter;
 use Ornament\Adapter\Defaults;
 use Ornament\Container;
-use Dabble\Adapter as Dab;
+use Dabble\Adapter as Dabble;
 use Dabble\Query\Select;
 use Dabble\Query\Where;
 use Dabble\Query\Options;
@@ -36,7 +36,7 @@ class Adapter extends PdoAdapter
      * @param Dabble\Adapter $adapter
      * @return void
      */
-    public function __construct(Dab $adapter)
+    public function __construct(Dabble $adapter)
     {
         parent::__construct($adapter);
     }
@@ -67,7 +67,7 @@ class Adapter extends PdoAdapter
             $fields,
             new Where($parameters),
             new Options($options)
-        );   
+        );
         $stmt = $this->getStatement($query->__toString());
         try {
             $stmt->execute($query->getBindings());
