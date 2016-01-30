@@ -6,39 +6,28 @@ use Dabble\Adapter\Sqlite;
 use Dormant\Demo\MyTableModel;
 
 /**
- * @Feature Dormant models behave as expected
+ * Dormant models behave as expected
  */
 class Dormant
 {
     /**
-     * @Scenario {0}::save should persist a new model
+     * {0}::save should persist a new model, so that {0}::$comment was updated.
      */
     public function creating(MyTableModel &$model = null)
     {
         $model = new MyTableModel($this->db);
         $model->name = 'Marijn';
         $model->comment = 'Hi Ornament';
-        $model->save();
-        return function ($result) {
-            $stmt = $this->db->prepare("SELECT * FROM my_table");
+        $stmt = $this->db->prepare("SELECT * FROM my_table ORDER BY id");
+        yield function ($result) use ($stmt) {
             $stmt->execute();
             $rows = $stmt->fetchAll();
             return count($rows) == 4;
         };
-        $this->assertEquals(4, count($rows));
-        $model->comment = 'Awesome';
-        $model->save();
-        $stmt->execute();
-        $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $this->assertEquals('Awesome', $row[3]['comment']);
-        unset($model);
-        $model = new MyTableModel(self::$pdo);
-        $model->id = 1;
-        $model->load();
     }
     
     /**
-     * @Scenario {0}::$comment should be updated
+     * {0}::$comment should be updated
      */
     public function updating(MyTableModel &$model = null)
     {
@@ -47,19 +36,20 @@ class Dormant
         $model->save();
         unset($model);
         $model = MyTableModel::query(['id' => 1], [], [$this->db]);
-        return 'Awesome';
+        yield 'Awesome';
     }
 
     /**
-     * @Scenario {0}::query should return a list of three models
+     * {0}::query should return a list of three models, and the first result of
+     * {0}::query must be a MyTableModel
      */
     public function testQuery(MyTableModel &$model = null, $where = [], $options = [], &$ctor = null)
     {
         $model = new MyTableModel($this->db);
         $ctor = [$this->db];
-        return function ($result) {
-            return count($result) == 3
-                && get_class($result[0]) == 'Dormant\Demo\MyTableModel';
+        yield 'count' => 3;
+        yield function ($result) {
+            return get_class($result[0]) == 'Dormant\Demo\MyTableModel';
         };
     }
 
