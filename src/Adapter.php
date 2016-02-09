@@ -70,7 +70,8 @@ class Adapter extends PdoAdapter
         );
         $stmt = $this->getStatement($query->__toString());
         try {
-            $stmt->execute($query->getBindings());
+            $values = array_merge($this->parameters, $query->getBindings());
+            $stmt->execute($values);
             $stmt->setFetchMode(PDO::FETCH_CLASS, get_class($object), $ctor);
             return $stmt->fetchAll();
         } catch (PDOException $e) {

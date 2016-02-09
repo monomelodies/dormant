@@ -11,46 +11,48 @@ use Dormant\Demo\MyTableModel;
 class Dormant
 {
     /**
-     * {0}::save should persist a new model, so that {0}::$comment was updated.
+     * Save should persist a new model {?}, so that $comment was updated {?}.
      */
-    public function creating(MyTableModel &$model = null)
+    public function creating(MyTableModel $model)
     {
-        $model = new MyTableModel($this->db);
+        $model->__gentryConstruct($this->db);
         $model->name = 'Marijn';
         $model->comment = 'Hi Ornament';
+        yield assert($model->save() == null);
         $stmt = $this->db->prepare("SELECT * FROM my_table ORDER BY id");
-        yield function ($result) use ($stmt) {
-            $stmt->execute();
-            $rows = $stmt->fetchAll();
-            return count($rows) == 4;
-        };
+        $stmt->execute();
+        $rows = $stmt->fetchAll();
+        yield assert(count($rows) == 4);
     }
     
     /**
-     * {0}::$comment should be updated
+     * $comment should be updated
      */
-    public function updating(MyTableModel &$model = null)
+    public function updating(MyTableModel $model)
     {
-        $model = MyTableModel::query(['id' => 1], [], [$this->db]);
-        $model->comment = 'Awesome';
-        $model->save();
-        unset($model);
-        $model = MyTableModel::query(['id' => 1], [], [$this->db]);
-        yield 'Awesome';
+        $model->__gentryConstruct($this->db);
+        $test = $model::find(['id' => 1], []);
+        $test->comment = 'Awesome';
+        $test->save();
+        unset($test);
+        $test = $model::find(['id' => 1], []);
+        yield assert($test->comment == 'Awesome');
     }
 
     /**
-     * {0}::query should return a list of three models, and the first result of
-     * {0}::query must be a MyTableModel
+     * query should return a list of three models {?}, and the first result of
+     * query must be a MyTableModel {?}
      */
-    public function testQuery(MyTableModel &$model = null, $where = [], $options = [], &$ctor = null)
+    public function testQuery(MyTableModel $model)
     {
-        $model = new MyTableModel($this->db);
-        $ctor = [$this->db];
-        yield 'count' => 3;
-        yield function ($result) {
-            return get_class($result[0]) == 'Dormant\Demo\MyTableModel';
-        };
+        $model->__gentryConstruct($this->db);
+        $result = $model::query([], []);
+        yield assert(count($result) == 3);
+        $result->rewind();
+        foreach ($result as $check) {
+            yield assert($check instanceof MyTableModel);
+            break;
+        }
     }
 
     public function __wakeup()
