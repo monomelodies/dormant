@@ -28,8 +28,6 @@ use PDOException;
  */
 class Adapter extends PdoAdapter
 {
-    use Defaults;
-    
     /**
      * Constructor. Pass in the Dabble adapter instead of the PDO adapter.
      *
