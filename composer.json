@@ -12,7 +12,7 @@
     "require": {
         "php": ">=5.4",
         "monomelodies/dabble": "^1.5.0",
-        "monomelodies/ornament": "^0.7.0"
+        "monomelodies/ornament": "^0.8.0"
     },
     "require-dev": {
         "monomelodies/gentry": "^0.7.0"
