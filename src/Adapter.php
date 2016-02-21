@@ -58,12 +58,19 @@ class Adapter extends PdoAdapter
         foreach ($fields as &$field) {
             $field = "$identifier.$field";
         }
+        $params = [];
+        foreach ($parameters as $key => $value) {
+            if (!strpos($key, '.')) {
+                $key = "$identifier.$key";
+            }
+            $params[$key] = $value;
+        }
         $identifier .= $this->generateJoin($fields);
         $query = new Select(
             $this->adapter,
             $identifier,
             $fields,
-            new Where($parameters),
+            new Where($params),
             new Options($options)
         );
         $stmt = $this->getStatement($query->__toString());
