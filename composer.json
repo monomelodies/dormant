@@ -15,7 +15,7 @@
         "monomelodies/ornament": "^0.8.0"
     },
     "require-dev": {
-        "monomelodies/gentry": "^0.7.0"
+        "monomelodies/gentry": "^0.8.0"
     },
     "autoload": {
         "psr-4": {
