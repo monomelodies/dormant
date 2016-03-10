@@ -55,6 +55,21 @@ class Dormant
         }
     }
 
+    /**
+     * query should recursively inject the base name {?}
+     */
+    public function testBaseInjection(MyTableModel $model)
+    {
+        $model->__gentryConstruct($this->db);
+        $result = $model::query([[['id' => 1], ['id' => 2]]], []);
+        yield assert(count($result) == 2);
+        $result->rewind();
+        foreach ($result as $check) {
+            yield assert($check instanceof MyTableModel);
+            break;
+        }
+    }
+
     public function __wakeup()
     {
         $this->db = new Sqlite(':memory:');

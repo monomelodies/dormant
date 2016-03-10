@@ -59,12 +59,7 @@ class Adapter extends PdoAdapter
             $field = "$identifier.$field";
         }
         $params = [];
-        foreach ($parameters as $key => $value) {
-            if (!strpos($key, '.')) {
-                $key = "$identifier.$key";
-            }
-            $params[$key] = $value;
-        }
+        $this->injectBaseName($parameters, $params);
         $identifier .= $this->generateJoin($fields);
         $query = new Select(
             $this->adapter,
@@ -81,6 +76,27 @@ class Adapter extends PdoAdapter
             return $stmt->fetchAll();
         } catch (PDOException $e) {
             return false;
+        }
+    }
+
+    /**
+     * Internal helper to recursively add base names if omitted.
+     *
+     * @param array $input Input hash of `WHERE` statements.
+     * @param array &$output The target hash with base names added.
+     */
+    private function injectBaseName(array $input, array &$output)
+    {
+        foreach ($input as $key => $value) {
+            if (!(is_numeric($key) || strpos($key, '.'))) {
+                $key = "{$this->identifier}.$key";
+            }
+            if (is_array($value)) {
+                $output[$key] = [];
+                $this->injectBaseName($value, $output[$key]);
+            } else {
+                $output[$key] = $value;
+            }
         }
     }
 }
