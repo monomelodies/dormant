@@ -11,8 +11,8 @@
     ],
     "require": {
         "php": ">=5.4",
-        "monomelodies/dabble": "^1.5.0",
-        "monomelodies/ornament": "^0.8.0"
+        "monomelodies/dabble": "^1.5.2",
+        "monomelodies/ornament": "^0.8.2"
     },
     "require-dev": {
         "monomelodies/gentry": "^0.8.0"
