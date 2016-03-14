@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fee921f40e38701608b64c2c7570f6da",
-    "content-hash": "7fb6ecab3f9cd4a73c1233e501bc157f",
+    "hash": "3349ebb91b8ff798d88b7c47f2faae3d",
+    "content-hash": "7579d76b92604f3b4500b3d7c3c3681d",
     "packages": [
         {
             "name": "monomelodies/dabble",
-            "version": "1.5.1",
+            "version": "1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/monomelodies/dabble.git",
-                "reference": "3c683ab57ef60c05acd988dcc17e30932dbe1774"
+                "reference": "daf186166724e1f3551890f4e2f2334b3ee5fd9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/monomelodies/dabble/zipball/3c683ab57ef60c05acd988dcc17e30932dbe1774",
-                "reference": "3c683ab57ef60c05acd988dcc17e30932dbe1774",
+                "url": "https://api.github.com/repos/monomelodies/dabble/zipball/daf186166724e1f3551890f4e2f2334b3ee5fd9f",
+                "reference": "daf186166724e1f3551890f4e2f2334b3ee5fd9f",
                 "shasum": ""
             },
             "require": {
@@ -50,24 +50,24 @@
                 "database",
                 "php"
             ],
-            "time": "2016-02-01 10:57:10"
+            "time": "2016-03-10 18:52:42"
         },
         {
             "name": "monomelodies/ornament",
-            "version": "0.8.1",
+            "version": "0.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/monomelodies/ornament.git",
-                "reference": "fc9bba9b705aae97de9519acb26a732a885659e6"
+                "reference": "d7d070ad11f5731be141cf55c2756accaaf51402"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/monomelodies/ornament/zipball/fc9bba9b705aae97de9519acb26a732a885659e6",
-                "reference": "fc9bba9b705aae97de9519acb26a732a885659e6",
+                "url": "https://api.github.com/repos/monomelodies/ornament/zipball/d7d070ad11f5731be141cf55c2756accaaf51402",
+                "reference": "d7d070ad11f5731be141cf55c2756accaaf51402",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5",
+                "php": ">=5.4",
                 "zeptech/annotations": "^1.1"
             },
             "require-dev": {
@@ -100,7 +100,7 @@
                 "orm",
                 "php"
             ],
-            "time": "2016-03-07 07:28:50"
+            "time": "2016-03-14 09:35:20"
         },
         {
             "name": "nesbot/carbon",
@@ -151,7 +151,7 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
@@ -412,16 +412,16 @@
         },
         {
             "name": "monomelodies/gentry",
-            "version": "0.8.3",
+            "version": "0.8.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/monomelodies/gentry.git",
-                "reference": "c0fec31d7baf80bed1a2eee21c13b245e18d88fd"
+                "reference": "610ad9fd9239a6d50f0ba654e926dbdff8461c74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/monomelodies/gentry/zipball/c0fec31d7baf80bed1a2eee21c13b245e18d88fd",
-                "reference": "c0fec31d7baf80bed1a2eee21c13b245e18d88fd",
+                "url": "https://api.github.com/repos/monomelodies/gentry/zipball/610ad9fd9239a6d50f0ba654e926dbdff8461c74",
+                "reference": "610ad9fd9239a6d50f0ba654e926dbdff8461c74",
                 "shasum": ""
             },
             "require": {
@@ -453,7 +453,7 @@
                 }
             ],
             "description": "PHP unit test generation tools",
-            "time": "2016-03-03 06:32:43"
+            "time": "2016-03-12 08:34:51"
         },
         {
             "name": "monomelodies/kingconf",
