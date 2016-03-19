@@ -88,7 +88,12 @@ class Adapter extends PdoAdapter
     private function injectBaseName(array $input, array &$output)
     {
         foreach ($input as $key => $value) {
-            if (!(is_numeric($key) || strpos($key, '.'))) {
+            if (!(is_numeric($key) || strpos($key, '.'))
+                && !in_array(
+                    strtoupper($key),
+                    ['BETWEEN', 'IN', 'NOT IN', 'ANY', 'SOME', 'ALL', 'LIKE']
+                )
+            ) {
                 $key = "{$this->identifier}.$key";
             }
             if (is_array($value)) {
