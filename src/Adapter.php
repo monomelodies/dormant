@@ -75,7 +75,6 @@ class Adapter extends PdoAdapter
             $stmt->setFetchMode(PDO::FETCH_CLASS, get_class($object), $ctor);
             return $stmt->fetchAll();
         } catch (PDOException $e) {
-            var_dump($e->getMessage());
             return false;
         }
     }
