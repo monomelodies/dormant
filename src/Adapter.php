@@ -59,7 +59,7 @@ class Adapter extends PdoAdapter
             $field = "$identifier.$field";
         }
         $params = [];
-        $this->injectBaseName($parameters, $params);
+        $this->injectBaseName($object, $parameters, $params);
         $identifier .= $this->generateJoin($fields);
         $query = new Select(
             $this->adapter,
@@ -75,6 +75,7 @@ class Adapter extends PdoAdapter
             $stmt->setFetchMode(PDO::FETCH_CLASS, get_class($object), $ctor);
             return $stmt->fetchAll();
         } catch (PDOException $e) {
+            var_dump($e->getMessage());
             return false;
         }
     }
@@ -82,20 +83,21 @@ class Adapter extends PdoAdapter
     /**
      * Internal helper to recursively add base names if omitted.
      *
+     * @param mixed $object The model we are working on.
      * @param array $input Input hash of `WHERE` statements.
      * @param array &$output The target hash with base names added.
      */
-    private function injectBaseName(array $input, array &$output)
+    private function injectBaseName($object, array $input, array &$output)
     {
         foreach ($input as $key => $value) {
-            if (property_exists($this, $key)
+            if (property_exists($object, $key)
                 && strpos($key, '.') === false
             ) {
                 $key = "{$this->identifier}.$key";
             }
             if (is_array($value)) {
                 $output[$key] = [];
-                $this->injectBaseName($value, $output[$key]);
+                $this->injectBaseName($object, $value, $output[$key]);
             } else {
                 $output[$key] = $value;
             }
