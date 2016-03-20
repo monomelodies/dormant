@@ -91,7 +91,20 @@ class Adapter extends PdoAdapter
             if (!(is_numeric($key) || strpos($key, '.'))
                 && !in_array(
                     strtoupper($key),
-                    ['BETWEEN', 'IN', 'NOT IN', 'ANY', 'SOME', 'ALL', 'LIKE']
+                    [
+                        'BETWEEN',
+                        'IN',
+                        'NOT IN',
+                        'ANY',
+                        'SOME',
+                        'ALL',
+                        'LIKE',
+                        '>',
+                        '>=',
+                        '<',
+                        '<=',
+                        '<>',
+                    ]
                 )
             ) {
                 $key = "{$this->identifier}.$key";
